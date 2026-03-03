@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMPN 6 KOPANG - PORTAL RESMI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .page { display: none; }
+        .page-active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .ekskul-card { transition: all 0.3s ease; border: 1px solid #f1f5f9; }
+        .ekskul-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .nav-active { color: #3b82f6 !important; font-weight: 800; border-bottom: 2px solid #3b82f6; }
+        .animate-pmr { animation: pulse-red 2s infinite; }
+        @keyframes pulse-red { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen pb-24 lg:pb-0">
+
+    <header class="bg-slate-900 text-white pt-16 pb-24 px-6 lg:px-20 rounded-b-[3.5rem] lg:rounded-b-[5rem] shadow-2xl relative overflow-hidden">
+        <div class="max-w-6xl mx-auto relative z-10">
+            <h1 class="text-4xl lg:text-6xl font-black tracking-tighter italic uppercase">SMPN 6 <br class="lg:hidden"> KOPANG</h1>
+            <div class="h-1.5 w-20 bg-blue-500 mt-4 rounded-full"></div>
+            <p class="text-slate-400 text-[10px] mt-6 font-bold uppercase tracking-[0.3em]">Official School Information System</p>
+        </div>
+    </header>
+
+    <nav class="hidden lg:flex bg-white/80 backdrop-blur-md shadow-sm border-b sticky top-0 z-50 px-20 py-4 justify-between items-center">
+        <div class="font-black text-slate-900 text-xl italic uppercase">SMPN 6 KOPANG</div>
+        <div class="flex gap-8 items-center">
+            <button onclick="showPage('home')" class="nav-btn-d font-bold text-slate-500 hover:text-blue-600 uppercase text-xs" data-page="home">Beranda</button>
+            <button onclick="showPage('kegiatan')" class="nav-btn-d font-bold text-slate-500 hover:text-blue-600 uppercase text-xs" data-page="kegiatan">Kegiatan</button>
+            <button onclick="showPage('ekskul')" class="nav-btn-d font-bold text-slate-500 hover:text-blue-600 uppercase text-xs" data-page="ekskul">Ekskul</button>
+            <button onclick="showPage('lokasi')" class="nav-btn-d font-bold text-slate-500 hover:text-blue-600 uppercase text-xs" data-page="lokasi">Kontak</button>
+            <button onclick="handleAdminNav()" class="bg-slate-900 text-white px-6 py-2 rounded-full font-black text-[10px] hover:bg-blue-600 transition flex items-center gap-2 shadow-lg uppercase">
+                <i class="fas fa-user-shield"></i> Panel Admin
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 -mt-12 lg:mt-12">
+        <section id="home" class="page space-y-8">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-slate-100">
+                    <h3 class="text-blue-600 font-black uppercase text-[10px] mb-4 tracking-widest italic">Tentang Kami</h3>
+                    <h2 class="text-3xl font-black text-slate-900 mb-6 italic uppercase leading-tight">Membangun Karakter <br> Menuju Masa Depan</h2>
+                    <p class="text-slate-600 leading-relaxed italic">Portal resmi SMPN 6 Kopang untuk informasi pendidikan berkualitas.</p>
+                </div>
+                <div class="bg-slate-900 p-10 rounded-[3rem] shadow-xl text-white flex flex-col justify-center border-b-8 border-blue-600">
+                    <h3 class="font-black uppercase text-blue-400 text-xl mb-2 italic">Visi</h3>
+                    <p class="text-slate-300 text-lg italic">"Terwujudnya lulusan yang beriman, bertaqwa, unggul dalam prestasi, dan peduli lingkungan."</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="kegiatan" class="page">
+            <h2 class="text-3xl font-black text-slate-900 border-l-8 border-blue-500 pl-4 uppercase italic mb-8">Dokumentasi Sekolah</h2>
+            <div id="activity-list" class="grid md:grid-cols-2 lg:grid-cols-2 gap-8"></div>
+            <div id="no-data" class="hidden py-20 text-center text-slate-300 italic uppercase font-black text-xs">
+                <i class="fas fa-camera-retro text-5xl mb-4 opacity-20 block mx-auto"></i> Belum ada kegiatan
+            </div>
+        </section>
+
+        <section id="ekskul" class="page">
+            <h2 class="text-center text-3xl font-black text-slate-900 uppercase italic mb-10">Ekstrakurikuler</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="ekskul-grid"></div>
+        </section>
+
+        <section id="lokasi" class="page">
+            <div class="bg-white p-8 rounded-[3rem] shadow-lg italic">
+                <p class="font-black text-slate-800">Email: smpn6kopang@gmail.com</p>
+                <p class="text-sm font-bold text-slate-700">Alamat: Kopang, Lombok Tengah, NTB</p>
+            </div>
+        </section>
+
+        <section id="admin" class="page">
+            <div class="max-w-xl mx-auto bg-white p-10 rounded-[3.5rem] shadow-2xl border border-slate-100 italic">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-black text-slate-900 uppercase">Upload Kegiatan</h3>
+                </div>
+                <div class="space-y-5">
+                    <input type="text" id="postTitle" placeholder="Judul Kegiatan..." class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none outline-none focus:ring-2 focus:ring-blue-500 font-bold">
+                    <input type="file" id="postFile" accept="image/*" class="hidden" onchange="updateFileName()">
+                    <button onclick="document.getElementById('postFile').click()" id="fileLabel" class="w-full px-6 py-4 rounded-2xl bg-slate-100 text-slate-500 font-black text-xs uppercase">Pilih Foto</button>
+                    <button onclick="savePost()" id="uploadBtn" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-xl hover:bg-blue-600 transition uppercase">Posting Sekarang</button>
+                    <button onclick="logout()" class="w-full text-red-500 font-bold py-2 text-xs uppercase">Keluar Panel</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-white/95 backdrop-blur-xl border flex justify-around items-center py-5 rounded-[2.5rem] shadow-2xl z-50">
+        <button onclick="showPage('home')" class="mob-btn" data-page="home"><i class="fas fa-home"></i></button>
+        <button onclick="showPage('kegiatan')" class="mob-btn" data-page="kegiatan"><i class="fas fa-camera"></i></button>
+        <button onclick="handleAdminNav()" class="mob-btn" data-page="admin"><i class="fas fa-user-shield"></i></button>
+        <button onclick="showPage('ekskul')" class="mob-btn" data-page="ekskul"><i class="fas fa-star"></i></button>
+        <button onclick="showPage('lokasi')" class="mob-btn" data-page="lokasi"><i class="fas fa-map-pin"></i></button>
+    </nav>
+
+    <footer class="py-10 text-center text-slate-400 text-[10px] font-black uppercase italic">
+        © 2026 SMPN 6 KOPANG | BY ARDIANSYAH DEV
+    </footer>
+
+    <script>
+        // INIT EKSKUL
+        const listEkskul = [{n:'PMR',i:'fa-hand-holding-medkit',c:'text-red-600'},{n:'Drumband',i:'fa-drum',c:'text-yellow-600'},{n:'Paskibra',i:'fa-flag',c:'text-slate-800'},{n:'Pramuka',i:'fa-campground',c:'text-orange-600'},{n:'Hadroh',i:'fa-mosque',c:'text-emerald-600'},{n:'Tilawah',i:'fa-quran',c:'text-blue-600'},{n:'Seni Tari',i:'fa-child',c:'text-pink-600'},{n:'Teater',i:'fa-masks-theater',c:'text-purple-600'},{n:'Voli',i:'fa-volleyball-ball',c:'text-sky-600'},{n:'IT Club',i:'fa-laptop-code',c:'text-indigo-600'},{n:'Bela Diri',i:'fa-fist-raised',c:'text-red-500'},{n:'Futsal',i:'fa-futbol',c:'text-green-600'}];
+        function renderEkskul(){ const g=document.getElementById('ekskul-grid'); g.innerHTML=listEkskul.map(e=>`<div class="ekskul-card bg-white p-6 rounded-[2.5rem] text-center italic"><div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3 ${e.c} ${e.n==='PMR'?'animate-pmr':''}"><i class="fas ${e.i} text-2xl"></i></div><p class="font-black text-[10px] uppercase">${e.n}</p></div>`).join('')}
+
+        // NAV & AUTH
+        function showPage(pId){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('page-active')); const t=document.getElementById(pId); if(t)t.classList.add('page-active'); document.querySelectorAll('.nav-btn-d, .mob-btn').forEach(b=>{ if(b.getAttribute('data-page')===pId)b.classList.add('nav-active'); else b.classList.remove('nav-active')}); if(pId==='kegiatan')loadPosts(); window.scrollTo({top:0,behavior:'smooth'})}
+        function handleAdminNav(){ if(sessionStorage.getItem('isKopangAdmin')==='true'){showPage('admin')}else{ const u=prompt("User:"); const p=prompt("Pass:"); if(u&&p&&u.trim()==="admin"&&p.trim()==="smpn6kopang"){sessionStorage.setItem('isKopangAdmin','true'); alert("Berhasil!"); showPage('admin')}else{alert("Salah!")}}}
+        function logout(){ sessionStorage.removeItem('isKopangAdmin'); showPage('home')}
+        function updateFileName(){ const f=document.getElementById('postFile').files[0]; if(f)document.getElementById('fileLabel').innerText=f.name}
+
+        // POSTING LOGIC WITH COMPRESSION
+        function loadPosts(){
+            const c=document.getElementById('activity-list'), n=document.getElementById('no-data');
+            const posts=JSON.parse(localStorage.getItem('kopang_final_db')||'[]');
+            c.innerHTML="";
+            if(posts.length===0){n.classList.remove('hidden')}else{
+                n.classList.add('hidden');
+                posts.sort((a,b)=>b.id-a.id).forEach(p=>{
+                    c.innerHTML+=`<div class="bg-white rounded-[2.5rem] overflow-hidden shadow-lg border relative group"><img src="${p.img}" class="w-full h-72 object-cover"><button onclick="deletePost(${p.id})" class="absolute top-4 right-4 bg-red-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition"><i class="fas fa-trash-alt"></i></button><div class="p-6"><h4 class="text-2xl font-black italic uppercase">${p.title}</h4><p class="text-slate-400 text-[10px] font-bold italic">${p.date}</p></div></div>`;
+                });
+            }
+        }
+
+        async function savePost(){
+            const t=document.getElementById('postTitle').value, f=document.getElementById('postFile').files[0], btn=document.getElementById('uploadBtn');
+            if(!t||!f)return alert("Isi Judul & Pilih Foto!");
+            btn.disabled=true; btn.innerText="Sedang Memproses...";
+
+            const reader = new FileReader();
+            reader.readAsDataURL(f);
+            reader.onload = function(event){
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function(){
+                    // COMPRESSION START
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800; // Perkecil ke 800px agar hemat memori
+                    const scaleSize = MAX_WIDTH / img.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = img.height * scaleSize;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); // Kualitas 70%
+
+                    const posts = JSON.parse(localStorage.getItem('kopang_final_db')||'[]');
+                    posts.push({id:Date.now(), title:t, img:compressedBase64, date:new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})});
+                    
+                    try {
+                        localStorage.setItem('kopang_final_db', JSON.stringify(posts));
+                        alert("Berhasil Posting!");
+                        document.getElementById('postTitle').value="";
+                        document.getElementById('postFile').value="";
+                        document.getElementById('fileLabel').innerText="Pilih Foto";
+                        showPage('kegiatan');
+                    } catch(e) {
+                        alert("Memori Penuh! Hapus beberapa foto lama dulu.");
+                    }
+                    btn.disabled=false; btn.innerText="Posting Sekarang";
+                }
+            }
+        }
+
+        function deletePost(id){
+            if(sessionStorage.getItem('isKopangAdmin')!=='true')return alert("Login Admin!");
+            if(confirm("Hapus Permanen?")){
+                let posts=JSON.parse(localStorage.getItem('kopang_final_db')||'[]');
+                posts=posts.filter(p=>p.id!==id);
+                localStorage.setItem('kopang_final_db', JSON.stringify(posts));
+                loadPosts();
+            }
+        }
+
+        window.onload=()=>{renderEkskul(); showPage('home'); loadPosts()}
+    </script>
+</body>
+</html>
